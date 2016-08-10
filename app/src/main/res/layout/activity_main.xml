@@ -9,8 +9,38 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ola.boggle.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/board_layout">
+
+        <TextView
+            android:id="@+id/letter_view1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:id="@+id/letter_view2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view1"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:id="@+id/letter_view3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/letter_view1"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:id="@+id/letter_view4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view3"
+            android:layout_below="@id/letter_view2"
+            android:layout_margin="10dp"/>
+
+
+    </RelativeLayout>
+
 </RelativeLayout>
