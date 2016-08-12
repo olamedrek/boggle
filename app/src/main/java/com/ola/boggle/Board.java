@@ -30,19 +30,14 @@ public class Board {
     public String getNewBoard() {
         StringBuilder builder = new StringBuilder();
         while(builder.length() < 16) {
-            int i = getRandomIndex();
-            if(i != -1)
-                builder.append(letters[i]);
+            Double d = random.nextDouble();
+            for(int i = 0; i < freqPref.length; i++) {
+                if(freqPref[i] > d) {
+                    builder.append(letters[i]);
+                    break;
+                }
+            }
         }
         return builder.toString();
     }
-
-    private int getRandomIndex() {
-        Double d = random.nextDouble();
-        for(int i = 0; i < freqPref.length; i++) {
-            if(freqPref[i] > d) return i;
-        }
-        return -1;
-    }
-
 }
