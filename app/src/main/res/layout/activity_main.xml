@@ -21,7 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/timer_view"
-        android:text="New board"/>
+        android:text="New board"
+        android:onClick="onClickNewBoardButton"/>
 
     <Button
         android:id="@+id/start_button"
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/newboard_button"
         android:text="START"
-        />
+        android:onClick="onClickStartButton"/>
 
     <RelativeLayout
         android:id="@+id/board_layout"
@@ -151,16 +152,16 @@
         android:layout_height="wrap_content"
         android:text="Add player"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:onClick="onClickAddPlayerButton"/>
 
-    <ListView
+
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/players"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/board_layout">
-    </ListView>
-
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/board_layout"/>
 
 
 </RelativeLayout>

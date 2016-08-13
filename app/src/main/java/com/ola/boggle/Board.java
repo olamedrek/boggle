@@ -19,6 +19,7 @@ public class Board {
     private double[] freqPref = new double[freq.length];
 
     private Random random = new Random();
+    private String currentBoard;
 
     public Board() {
         freqPref[0] = freq[0];
@@ -38,6 +39,11 @@ public class Board {
                 }
             }
         }
-        return builder.toString();
+        currentBoard = builder.toString();
+        return currentBoard;
+    }
+
+    public String getCurrentBoard() {
+        return currentBoard;
     }
 }
