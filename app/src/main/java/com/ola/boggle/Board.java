@@ -30,14 +30,8 @@ public class Board {
 
     public String getNewBoard() {
         StringBuilder builder = new StringBuilder();
-        while(builder.length() < 16) {
-            Double d = random.nextDouble();
-            for(int i = 0; i < freqPref.length; i++) {
-                if(freqPref[i] > d) {
-                    builder.append(letters[i]);
-                    break;
-                }
-            }
+        for(int i = 0; i < 16; i++) {
+            builder.append(getRandomLetter());
         }
         currentBoard = builder.toString();
         return currentBoard;
@@ -45,5 +39,15 @@ public class Board {
 
     public String getCurrentBoard() {
         return currentBoard;
+    }
+
+    private Character getRandomLetter() {
+        Double d = random.nextDouble();
+        for(int i = 0; i < freqPref.length; i++) {
+            if(freqPref[i] > d) {
+                return letters[i];
+            }
+        }
+        return letters[letters.length - 1];
     }
 }

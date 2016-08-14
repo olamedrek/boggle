@@ -1,0 +1,162 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ola.boggle.MainFragment">
+
+    <TextView
+        android:id="@+id/timer_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3:00"
+        android:textSize="40sp"/>
+
+    <Button
+        android:id="@+id/newboard_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timer_view"
+        android:text="New board"
+        android:onClick="onClickNewBoardButton"/>
+
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/newboard_button"
+        android:text="START"
+        android:onClick="onClickStartButton"/>
+
+    <RelativeLayout
+        android:id="@+id/board_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/letter_view1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view1"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view2"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view3"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/letter_view1"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view5"
+            android:layout_below="@id/letter_view2"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view6"
+            android:layout_below="@id/letter_view3"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view7"
+            android:layout_below="@id/letter_view4"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/letter_view5"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view9"
+            android:layout_below="@id/letter_view6"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view10"
+            android:layout_below="@id/letter_view7"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view11"
+            android:layout_below="@id/letter_view8"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/letter_view9"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view13"
+            android:layout_below="@id/letter_view10"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view14"
+            android:layout_below="@id/letter_view11"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/letter_view16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/letter_view15"
+            android:layout_below="@id/letter_view12"
+            android:layout_margin="5dp"/>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/addplayer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add player"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="onClickAddPlayerButton"/>
+
+
+    <com.baoyz.swipemenulistview.SwipeMenuListView
+        android:id="@+id/players"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/board_layout"/>
+
+
+</RelativeLayout>
