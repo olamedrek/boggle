@@ -1,7 +1,6 @@
 package com.ola.boggle;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +8,9 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
+import android.view.animation.Animation;
+import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,15 +23,11 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
 
     private RelativeLayout boardLayout;
     private TextView timerView;
-    private Button newBoardButton;
-    private Button startButton;
-    private Button addPlayerButton;
 
     private SwipeMenuListView players;
     private SwipeListAdapter adapter = new SwipeListAdapter();
@@ -49,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         boardLayout = (RelativeLayout) findViewById(R.id.board_layout);
         timerView = (TextView) findViewById(R.id.timer_view);
-        newBoardButton = (Button) findViewById(R.id.newboard_button);
-        startButton = (Button) findViewById(R.id.start_button);
-        addPlayerButton = (Button) findViewById(R.id.addplayer_button);
 
         players = (SwipeMenuListView) findViewById(R.id.players);
         players.setAdapter(adapter);
@@ -90,6 +84,31 @@ public class MainActivity extends AppCompatActivity {
                 menu.addMenuItem(dummyItem);
             }
         });
+
+        players.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Points:");
+                final EditText input = new EditText(MainActivity.this);
+                builder.setView(input);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.addPoints(i, Integer.parseInt(input.getText().toString()));
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -99,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickNewBoardButton(View view) {
-        setBoard(board.getNewBoard());
+        setBoardWithAnimation(board.getNewBoard());
         timerView.setText("3:00");
         timerHandler.removeCallbacksAndMessages(null);
     }
@@ -132,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickAddPlayerButton(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter the name:");
+        builder.setTitle("Name:");
         final EditText input = new EditText(this);
         builder.setView(input);
 
@@ -158,10 +177,34 @@ public class MainActivity extends AppCompatActivity {
         timerView.setText(String.format(pattern, minutes, seconds));
     }
 
+    private void setBoardWithAnimation(String board) {
+        for(int i = 0; i < letterViews.size(); i++) {
+            final String value = (board != null ? String.valueOf(board.charAt(i)) : "");
+            final TextView letterView = letterViews.get(i);
+            letterView.setText("");
+            Rotate3dAnimation rotation = new Rotate3dAnimation(180, 360, letterView.getWidth()/2,
+                    letterView.getHeight()/2, 100, false);
+            rotation.setDuration(500);
+            rotation.setFillAfter(true);
+            rotation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {}
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    letterView.setText(value);
+                }
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
+            letterView.startAnimation(rotation);
+        }
+    }
+
     private void setBoard(String board) {
         for(int i = 0; i < letterViews.size(); i++) {
-            String value = (board != null ? String.valueOf(board.charAt(i)) : "");
-            letterViews.get(i).setText(value);
+            final String value = (board != null ? String.valueOf(board.charAt(i)) : "");
+            final TextView letterView = letterViews.get(i);
+            letterView.setText(value);
         }
     }
 

@@ -58,6 +58,12 @@ public class SwipeListAdapter extends BaseAdapter {
         }
     }
 
+    public void addPoints(int position, int points) {
+        int currentScore = Integer.parseInt(players.get(position).getScore());
+        players.get(position).setScore(String.valueOf(currentScore + points));
+        notifyDataSetChanged();
+    }
+
     private static class Player {
         private String name;
         private String score;
