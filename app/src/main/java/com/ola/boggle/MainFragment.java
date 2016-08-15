@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -23,7 +24,7 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -35,11 +36,13 @@ public class MainFragment extends Fragment {
     private SwipeMenuListView players;
     private SwipeListAdapter adapter = new SwipeListAdapter();
 
-    private List<TextView> letterViews = new ArrayList<>();
+    private List<TextView> letterViews;
     private Board board = new Board();
 
     private long startTime = 0;
     private Handler timerHandler = new Handler();
+
+    private int gameDuration = 180;
 
     public MainFragment() {
     }
@@ -116,6 +119,17 @@ public class MainFragment extends Fragment {
             }
         });
 
+        players.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    players.getParent().requestDisallowInterceptTouchEvent(true);
+                }
+                return false;
+            }
+        });
+
+
         return view;
     }
 
@@ -127,7 +141,7 @@ public class MainFragment extends Fragment {
 
     public void onClickNewBoardButton(View view) {
         setBoardWithAnimation(board.getNewBoard());
-        timerView.setText("3:00");
+        displayTime(gameDuration);
         timerHandler.removeCallbacksAndMessages(null);
     }
 
@@ -148,7 +162,7 @@ public class MainFragment extends Fragment {
                         @Override
                         public void run() {
                             setBoard(board.getCurrentBoard());
-                            timerView.setText("3:00");
+                            displayTime(gameDuration);
                         }
                     }, 2000);
                 }
@@ -217,22 +231,22 @@ public class MainFragment extends Fragment {
     }
 
     private void createListOfLetterViews(View view ) {
-        letterViews.add((TextView) view.findViewById(R.id.letter_view1));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view2));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view3));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view4));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view5));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view6));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view7));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view8));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view9));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view10));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view11));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view12));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view13));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view14));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view15));
-        letterViews.add((TextView) view.findViewById(R.id.letter_view16));
+        letterViews = Arrays.asList((TextView) view.findViewById(R.id.letter_view1),
+                (TextView) view.findViewById(R.id.letter_view2),
+                (TextView) view.findViewById(R.id.letter_view3),
+                (TextView) view.findViewById(R.id.letter_view4),
+                (TextView) view.findViewById(R.id.letter_view5),
+                (TextView) view.findViewById(R.id.letter_view6),
+                (TextView) view.findViewById(R.id.letter_view7),
+                (TextView) view.findViewById(R.id.letter_view8),
+                (TextView) view.findViewById(R.id.letter_view9),
+                (TextView) view.findViewById(R.id.letter_view10),
+                (TextView) view.findViewById(R.id.letter_view11),
+                (TextView) view.findViewById(R.id.letter_view12),
+                (TextView) view.findViewById(R.id.letter_view13),
+                (TextView) view.findViewById(R.id.letter_view14),
+                (TextView) view.findViewById(R.id.letter_view15),
+                (TextView) view.findViewById(R.id.letter_view16));
     }
 
 }

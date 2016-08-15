@@ -40,7 +40,7 @@ public class SwipeListAdapter extends BaseAdapter {
         }
         Player player = players.get(i);
         ((TextView) view.findViewById(R.id.player_name)).setText(player.getName());
-        ((TextView) view.findViewById(R.id.player_score)).setText(player.getScore());
+        ((TextView) view.findViewById(R.id.player_score)).setText(String.valueOf(player.getScore()));
 
         return view;
     }
@@ -59,18 +59,18 @@ public class SwipeListAdapter extends BaseAdapter {
     }
 
     public void addPoints(int position, int points) {
-        int currentScore = Integer.parseInt(players.get(position).getScore());
-        players.get(position).setScore(String.valueOf(currentScore + points));
+        int currentScore = players.get(position).getScore();
+        players.get(position).setScore(currentScore + points);
         notifyDataSetChanged();
     }
 
     private static class Player {
         private String name;
-        private String score;
+        private Integer score;
 
         public Player(String name) {
             this.name = name;
-            this.score = "0";
+            this.score = 0;
         }
 
         public String getName() {
@@ -81,11 +81,11 @@ public class SwipeListAdapter extends BaseAdapter {
             this.name = name;
         }
 
-        public String getScore() {
+        public Integer getScore() {
             return score;
         }
 
-        public void setScore(String score) {
+        public void setScore(Integer score) {
             this.score = score;
         }
     }
