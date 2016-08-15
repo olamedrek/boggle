@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,6 +34,9 @@ public class MainFragment extends Fragment {
 
     private RelativeLayout boardLayout;
     private TextView timerView;
+    private Button newBoardButton;
+    private Button newPlayerButton;
+    private Button startButton;
 
     private SwipeMenuListView players;
     private SwipeListAdapter adapter = new SwipeListAdapter();
@@ -55,6 +60,9 @@ public class MainFragment extends Fragment {
 
         boardLayout = (RelativeLayout) view.findViewById(R.id.board_layout);
         timerView = (TextView) view.findViewById(R.id.timer_view);
+        newBoardButton = (Button) view.findViewById(R.id.newboard_button);
+        startButton = (Button) view.findViewById(R.id.start_button);
+        newPlayerButton = (Button) view.findViewById(R.id.addplayer_button);
 
         players = (SwipeMenuListView) view.findViewById(R.id.players);
         players.setAdapter(adapter);
@@ -100,6 +108,7 @@ public class MainFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Points:");
                 final EditText input = new EditText(view.getContext());
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 builder.setView(input);
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -126,6 +135,27 @@ public class MainFragment extends Fragment {
                     players.getParent().requestDisallowInterceptTouchEvent(true);
                 }
                 return false;
+            }
+        });
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickStartButton(view);
+            }
+        });
+
+        newPlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddPlayerButton(view);
+            }
+        });
+
+        newBoardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickNewBoardButton(view);
             }
         });
 
@@ -173,14 +203,18 @@ public class MainFragment extends Fragment {
 
     public void onClickAddPlayerButton(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setTitle("Name:");
+        builder.setTitle("Enter players' names:");
         final EditText input = new EditText(view.getContext());
+        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         builder.setView(input);
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                adapter.addPlayer(input.getText().toString());
+                String[] names = input.getText().toString().split(" ");
+                for(String name : names) {
+                    adapter.addPlayer(name);
+                }
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

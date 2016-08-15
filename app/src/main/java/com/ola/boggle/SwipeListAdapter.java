@@ -36,7 +36,7 @@ public class SwipeListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) viewGroup.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.player_layout, null);
+            view = inflater.inflate(R.layout.player, null);
         }
         Player player = players.get(i);
         ((TextView) view.findViewById(R.id.player_name)).setText(player.getName());
