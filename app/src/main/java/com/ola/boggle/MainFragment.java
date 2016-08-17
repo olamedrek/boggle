@@ -1,7 +1,7 @@
 package com.ola.boggle;
 
-
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,26 +29,30 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 
 public class MainFragment extends Fragment {
 
-    private RelativeLayout boardLayout;
+    private RelativeLayout solutionLayout;
+    private RelativeLayout playersLayout;
     private TextView timerView;
-    private Button newBoardButton;
-    private Button newPlayerButton;
-    private Button startButton;
+    private Button showSolutionButton;
+
+    private SolutionListAdapter solutionAdapter = new SolutionListAdapter();
+    private Solution solution;
 
     private SwipeMenuListView players;
-    private SwipeListAdapter adapter = new SwipeListAdapter();
+    private SwipeListAdapter playersAdapter = new SwipeListAdapter();
 
     private List<TextView> letterViews;
     private Board board = new Board();
 
     private long startTime = 0;
     private Handler timerHandler = new Handler();
-
     private int gameDuration = 180;
+
+
 
     public MainFragment() {
     }
@@ -58,16 +63,26 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        boardLayout = (RelativeLayout) view.findViewById(R.id.board_layout);
+        RelativeLayout boardLayout = (RelativeLayout) view.findViewById(R.id.board_layout);
+        solutionLayout = (RelativeLayout) view.findViewById(R.id.solution_layout);
+        playersLayout = (RelativeLayout) view.findViewById(R.id.players_layout);
+
         timerView = (TextView) view.findViewById(R.id.timer_view);
-        newBoardButton = (Button) view.findViewById(R.id.newboard_button);
-        startButton = (Button) view.findViewById(R.id.start_button);
-        newPlayerButton = (Button) view.findViewById(R.id.addplayer_button);
+        Button newBoardButton = (Button) view.findViewById(R.id.newboard_button);
+        Button startButton = (Button) view.findViewById(R.id.start_button);
+        Button addPlayerButton = (Button) view.findViewById(R.id.addplayer_button);
+        showSolutionButton = (Button) view.findViewById(R.id.solution_button);
+        Button backButton = (Button) view.findViewById(R.id.back2_button);
+
+        ListView solutionView = (ListView) view.findViewById(R.id.solution_view);
+        solutionView.setAdapter(solutionAdapter);
+        solution = new Solution(getResources().openRawResource(R.raw.dictionary));
 
         players = (SwipeMenuListView) view.findViewById(R.id.players);
-        players.setAdapter(adapter);
+        players.setAdapter(playersAdapter);
         players.setSwipeDirection(SwipeMenuListView.DIRECTION_RIGHT);
         createListOfLetterViews(view);
+
 
         boardLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -89,7 +104,7 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onSwipeEnd(int position) {
-                adapter.removePlayer(position);
+                playersAdapter.removePlayer(position);
             }
         });
 
@@ -114,7 +129,7 @@ public class MainFragment extends Fragment {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        adapter.addPoints(i, Integer.parseInt(input.getText().toString()));
+                        playersAdapter.addPoints(i, Integer.parseInt(input.getText().toString()));
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -145,7 +160,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        newPlayerButton.setOnClickListener(new View.OnClickListener() {
+        addPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onClickAddPlayerButton(view);
@@ -159,6 +174,20 @@ public class MainFragment extends Fragment {
             }
         });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickBackButton(view);
+            }
+        });
+
+        showSolutionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playersLayout.setVisibility(View.INVISIBLE);
+                solutionLayout.setVisibility(View.VISIBLE);
+            }
+        });
 
         return view;
     }
@@ -170,9 +199,23 @@ public class MainFragment extends Fragment {
     }
 
     public void onClickNewBoardButton(View view) {
+        showSolutionButton.setEnabled(false);
         setBoardWithAnimation(board.getNewBoard());
         displayTime(gameDuration);
         timerHandler.removeCallbacksAndMessages(null);
+
+        new AsyncTask<Void, Void, Set<String>>() {
+            @Override
+            protected Set<String> doInBackground(Void... voids) {
+                return solution.findAllWords(board.getCurrentBoard());
+            }
+
+            @Override
+            protected void onPostExecute(Set<String> strings) {
+                solutionAdapter.changeWords(strings);
+                showSolutionButton.setEnabled(true);
+            }
+        }.execute();
     }
 
     public void onClickStartButton(final View view) {
@@ -213,7 +256,7 @@ public class MainFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 String[] names = input.getText().toString().split(" ");
                 for(String name : names) {
-                    adapter.addPlayer(name);
+                    playersAdapter.addPlayer(name);
                 }
             }
         });
@@ -224,6 +267,11 @@ public class MainFragment extends Fragment {
             }
         });
         builder.show();
+    }
+
+    public void onClickBackButton(View view) {
+        playersLayout.setVisibility(View.VISIBLE);
+        solutionLayout.setVisibility(View.INVISIBLE);
     }
 
     private void displayTime(long secondsLeft) {
