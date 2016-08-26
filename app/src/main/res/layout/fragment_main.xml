@@ -9,7 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40sp"
-        android:text="3:00"
         android:textSize="56sp"/>
 
     <Button
@@ -18,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/timer_view"
         android:layout_marginTop="56dp"
+        android:onClick="onClickNewBoardButton"
         android:text="New board"/>
 
     <Button
@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/newboard_button"
+        android:onClick="onClickStartButton"
         android:text="Start"/>
 
     <Button
@@ -34,6 +35,7 @@
         android:enabled="false"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="40dp"
+        android:onClick="onClickShowSolutionButton"
         android:text="Show solution"/>
 
 
@@ -64,6 +66,7 @@
             android:text="Add players"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:onClick="onClickAddPlayerButton"
             android:layout_marginBottom="56dp"/>
     </RelativeLayout>
 
@@ -83,6 +86,7 @@
             android:text="Back"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:onClick="onClickBackButton"
             android:layout_marginBottom="32dp"/>
         <ListView
             android:id="@+id/solution_view"

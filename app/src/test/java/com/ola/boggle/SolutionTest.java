@@ -58,7 +58,6 @@ public class SolutionTest {
         testTemplate(board, expectedSubset);
     }
 
-
     private void testTemplate(String board, String[] expectedSubset) throws IOException {
         Set<String> result = solution.findAllWords(board);
 
@@ -77,7 +76,7 @@ public class SolutionTest {
         }
 
         if(result.size() != 0) {
-            assert false: "Words not from dictionary were found: ";
+            assert false: "Fake words were found: ";
             for(String s : result) {
                 System.out.println(s);
             }

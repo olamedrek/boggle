@@ -18,14 +18,15 @@ public class Solution {
     private Set<String> wordsOnBoard;
     private StringComparator stringComparator;
     private Trie trie;
-    private char currLetterInTrie;
-    private String firstLine;
+    private char letterInTrie;
+    private String line;
     private BufferedReader bufferedReader;
+
 
     public Solution(InputStream inputStream) {
         stringComparator = new StringComparator();
-        trie = new Trie();
         bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        trie = new Trie();
     }
 
     public Set<String> findAllWords(String board) {
@@ -38,47 +39,37 @@ public class Solution {
         Arrays.sort(positions, new BoardSortingComparator(board));
 
         for(int i = 0; i < 16; i++) {
-            loadNewLetterToTrie(board.charAt(positions[i]));
-            findAllWordsRecursively(board, positions[i], new StringBuilder(), visited.clone());
+            char letter = board.charAt(positions[i]);
+            if(letter != letterInTrie) {
+                loadLetterToTrie(letter);
+            }
+            findAllWordsFromPosition(board, positions[i], new StringBuilder(), visited.clone());
         }
         return wordsOnBoard;
     }
 
-    private void loadNewLetterToTrie(char c) {
-        if(c == currLetterInTrie) {
-            return;
-        }
+    private void loadLetterToTrie(char c) {
         trie = new Trie();
 
-        if(firstLine != null) {
-            char first = firstLine.charAt(0);
-            if(first == c) {
-                trie.add(firstLine);
-            }
-        }
-
-        String line;
         try {
-            while((line = bufferedReader.readLine()) != null) {
+            do if(line != null) {
                 char first = line.charAt(0);
                 int compRes = stringComparator.compare(String.valueOf(first), String.valueOf(c));
                 if(compRes == 0) {
                     trie.add(line);
-                }
-                if(compRes > 0) {
+                } else if(compRes > 0) {
                     break;
                 }
-            }
-            firstLine = line;
+            } while((line = bufferedReader.readLine()) != null);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        currLetterInTrie = c;
-
+        letterInTrie = c;
     }
 
-    private void findAllWordsRecursively(String board, int position, StringBuilder builder, boolean[] visited) {
+    private void findAllWordsFromPosition(String board, int position, StringBuilder builder, boolean[] visited) {
         visited[position] = true;
 
         builder.append(board.charAt(position));
@@ -86,13 +77,13 @@ public class Solution {
 
         int result = trie.contains(currentWord);
 
-        if(result == 2) {
+        if(result == 2 && currentWord.length() > 2) {
             wordsOnBoard.add(currentWord);
         }
         if(result != 0) {
             for(int neighbour : getAllNeighbours(position)) {
                 if(!visited[neighbour]) {
-                    findAllWordsRecursively(board, neighbour, new StringBuilder(builder), visited.clone());
+                    findAllWordsFromPosition(board, neighbour, new StringBuilder(builder), visited.clone());
                 }
             }
         }

@@ -6,10 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
+    private MainFragment mainFragment;
+    private WebDictionaryFragment webDictionaryFragment;
 
 
     @Override
@@ -18,18 +21,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new SwipeFragmentPagerAdapter(getSupportFragmentManager()));
+        mainFragment = new MainFragment();
+        webDictionaryFragment = new WebDictionaryFragment();
     }
 
-    private class MyPagerAdapter extends FragmentPagerAdapter {
+    public void onClickNewBoardButton(View view) {
+        mainFragment.onClickNewBoardButton(view);
+    }
 
-        public MyPagerAdapter(FragmentManager fm) {
+    public void onClickStartButton(View view) {
+        mainFragment.onClickStartButton(view);
+    }
+
+    public void onClickAddPlayerButton(View view) {
+        mainFragment.onClickAddPlayerButton(view);
+    }
+
+    public void onClickBackButton(View view) {
+        mainFragment.onClickBackButton(view);
+    }
+
+    public void onClickShowSolutionButton(View view) {
+        mainFragment.onClickShowSolutionButton(view);
+    }
+
+    private class SwipeFragmentPagerAdapter extends FragmentPagerAdapter {
+
+        public SwipeFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            return (position == 0 ? new MainFragment() : new WebDictionaryFragment());
+            return position == 0 ? mainFragment : webDictionaryFragment;
         }
 
         @Override

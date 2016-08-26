@@ -14,9 +14,7 @@ public class WebDictionaryFragment extends Fragment {
 
     private WebView webView;
 
-    public WebDictionaryFragment() {
-    }
-
+    public WebDictionaryFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

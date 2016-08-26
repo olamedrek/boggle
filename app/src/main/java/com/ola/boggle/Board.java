@@ -17,7 +17,6 @@ public class Board {
             0.0398, 0.0250, 0.0004, 0.0465, 0.0002, 0.0376, 0.0564, 0.0006, 0.0083};
 
     private double[] freqPref = new double[freq.length];
-
     private Random random = new Random();
     private String currentBoard;
 

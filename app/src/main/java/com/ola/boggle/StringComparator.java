@@ -13,8 +13,8 @@ import java.util.Map;
  */
 public class StringComparator implements Comparator<String> {
 
-    private Character[] polishChars = {'a', 'ą', 'b', 'c', 'ć', 'd', 'e', 'ę', 'f', 'g', 'h', 'i',
-            'j', 'k', 'l', 'ł', 'm', 'n', 'ń', 'o', 'ó', 'p', 'q', 'r', 's', 'ś', 't', 'u',
+    private final Character[] polishChars = {'a', 'ą', 'b', 'c', 'ć', 'd', 'e', 'ę', 'f', 'g', 'h',
+            'i', 'j', 'k', 'l', 'ł', 'm', 'n', 'ń', 'o', 'ó', 'p', 'q', 'r', 's', 'ś', 't', 'u',
             'v', 'w', 'x', 'y', 'z', 'ź', 'ż'};
     
     private Map<Character, Integer> rank = new HashMap<>();
@@ -30,8 +30,9 @@ public class StringComparator implements Comparator<String> {
         int lenMin = Math.min(s.length(), t.length());
         for(int i = 0; i < lenMin; i++) {
             int compRes = rank.get(s.charAt(i)) - rank.get(t.charAt(i));
-            if(compRes != 0)
+            if(compRes != 0) {
                 return compRes;
+            }
         }
         return s.length() - t.length();
     }

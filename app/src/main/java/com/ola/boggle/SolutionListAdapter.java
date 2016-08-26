@@ -1,7 +1,5 @@
 package com.ola.boggle;
 
-import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,6 +16,7 @@ import java.util.Set;
 public class SolutionListAdapter extends BaseAdapter {
 
     private List<String> words = new ArrayList<>();
+    private WordsComparator wordsComparator = new WordsComparator();
 
     @Override
     public int getCount() {
@@ -45,18 +44,21 @@ public class SolutionListAdapter extends BaseAdapter {
         return view;
     }
 
-    public void changeWords(Set<String> newWords) {
-        List<String> newList = new ArrayList<>();
-        for(String s : newWords) newList.add(s);
-        Collections.sort(newList, new StringComparator());
+    public void replaceWords(Set<String> newWords) {
+        List<String> newList = new ArrayList<>(newWords);
+        Collections.sort(newList, wordsComparator);
         words = newList;
         notifyDataSetChanged();
     }
 
-    private class StringComparator implements java.util.Comparator<String> {
+    private class WordsComparator implements java.util.Comparator<String> {
+
+        private StringComparator stringComparator = new StringComparator();
+
         @Override
         public int compare(String s, String t) {
-            return t.length() - s.length();
+            return t.length() - s.length() != 0 ?
+                    t.length() - s.length() : stringComparator.compare(s, t);
         }
     }
 }

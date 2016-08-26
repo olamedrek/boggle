@@ -16,8 +16,8 @@ public class BoardSortingComparator implements Comparator<Integer> {
     }
 
     /**
-     * @param i1 has to be in the range 0...board.len-1
-     * @param i2 has to be in the range 0...board.len-1
+     * @param i1 has to be in the range 0 to board.length-1
+     * @param i2 has to be in the range 0 to board.length-1
      */
     @Override
     public int compare(Integer i1, Integer i2) {

@@ -54,6 +54,7 @@ public class Trie {
     }
 
     private static class TrieNode {
+
         private char letter;
         private boolean terminal;
         private List<TrieNode> children;
@@ -80,7 +81,7 @@ public class Trie {
         }
 
         /**
-         * Assumption: there is no child with such letter
+         * Assumption: there is no child with given letter
          * @return created child
          */
         private TrieNode addChild(char c) {
