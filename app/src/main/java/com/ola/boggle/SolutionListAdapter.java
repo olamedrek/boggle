@@ -38,6 +38,7 @@ public class SolutionListAdapter extends BaseAdapter {
         if(view == null) {
             view = new TextView(viewGroup.getContext());
             ((TextView) view).setTextSize(20);
+            ((TextView) view).setTextColor(view.getResources().getColor(R.color.colorTextViews));
         }
         ((TextView) view).setText(words.get(i));
 

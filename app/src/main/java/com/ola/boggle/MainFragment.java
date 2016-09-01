@@ -37,13 +37,13 @@ public class MainFragment extends Fragment {
     private RelativeLayout boardLayout;
 
     private SolutionListAdapter solutionAdapter = new SolutionListAdapter();
-    private SwipeListAdapter playersAdapter = new SwipeListAdapter();
+    private PlayersListAdapter playersAdapter = new PlayersListAdapter();
     private Board board = new Board();
     private Handler timerHandler = new Handler();
 
     private List<TextView> letterViews = new ArrayList<>();
     private long startTime = 0;
-    private int gameDuration = 10; // TODO
+    private int gameDuration = 180;
 
 
     public MainFragment() {}
@@ -73,7 +73,8 @@ public class MainFragment extends Fragment {
         boardLayout.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             for(TextView letterView : letterViews) {
                 letterView.setWidth(letterView.getHeight());
-                letterView.setBackgroundResource(R.drawable.rounded_corner);
+                letterView.setBackgroundResource(R.drawable.letter);
+                letterView.setTextColor(getResources().getColor(R.color.colorLetters));
                 letterView.setGravity(Gravity.CENTER);
                 letterView.setTextSize(96);
             }
@@ -96,8 +97,9 @@ public class MainFragment extends Fragment {
         timerHandler.removeCallbacksAndMessages(null);
     }
 
-    public void onClickNewBoardButton(View view) {
+    public void onClickNewBoardButton(View newBoardButton) {
         showSolutionButton.setEnabled(false);
+        newBoardButton.setEnabled(false);
         setBoardWithAnimation(board.getNewBoard());
         displayTime(gameDuration);
         timerHandler.removeCallbacksAndMessages(null);
@@ -113,8 +115,9 @@ public class MainFragment extends Fragment {
             protected void onPostExecute(Set<String> strings) {
                 solutionAdapter.replaceWords(strings);
                 showSolutionButton.setEnabled(true);
+                newBoardButton.setEnabled(true);
             }
-        }.execute(); // TODO : cancel
+        }.execute();
     }
 
     public void onClickStartButton(final View view) {
@@ -123,12 +126,12 @@ public class MainFragment extends Fragment {
             @Override
             public void run() {
                 long secondsPassed = (System.currentTimeMillis() - startTime) / 1000;
-                long secondsLeft = 10 - secondsPassed; // TODO
+                long secondsLeft = gameDuration - secondsPassed;
                 displayTime(secondsLeft);
                 if(secondsLeft > 0) {
                     timerHandler.postDelayed(this, 1000);
                 } else {
-                    Toast.makeText(view.getContext(), "Time is up", Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), "Time is up", Toast.LENGTH_SHORT).show();
                     setBoard(null);
                     timerHandler.postDelayed(() -> {
                         setBoard(board.getCurrentBoard());

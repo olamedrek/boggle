@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by ola on 13.08.16.
  */
-public class SwipeListAdapter extends BaseAdapter {
+public class PlayersListAdapter extends BaseAdapter {
 
     private List<Player> players = new ArrayList<>();
 
