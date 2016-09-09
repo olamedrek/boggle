@@ -2,12 +2,12 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#87CEFA</color>
 
-    <color name="colorBackground">#44B3C2</color>
-    <color name="colorBoard">#F2EDD8</color>
-    <color name="colorLetters">#E45641</color>
-    <color name="colorButtons">#F1A94E</color>
-    <color name="colorTextViews">#5D4C46</color>
+    <color name="colorBackground">#A52A2A</color>
+    <color name="colorBoard">#FFEFD5</color>
+    <color name="colorLetters">#303F9F</color>
+    <color name="colorButtons">#87CEFA</color>
+    <color name="colorTextViews">#FFEFD5</color>
     <color name="colorTextOnButtons">#000000</color>
 </resources>
