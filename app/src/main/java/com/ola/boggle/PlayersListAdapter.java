@@ -8,11 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by ola on 13.08.16.
- */
+
 public class PlayersListAdapter extends BaseAdapter {
 
     private List<Player> players = new ArrayList<>();
@@ -62,10 +61,11 @@ public class PlayersListAdapter extends BaseAdapter {
     public void addPoints(int position, int points) {
         int currentScore = players.get(position).getScore();
         players.get(position).setScore(currentScore + points);
+        Collections.sort(players);
         notifyDataSetChanged();
     }
 
-    private static class Player {
+    private static class Player implements Comparable<Player> {
 
         private String name;
         private Integer score;
@@ -89,6 +89,14 @@ public class PlayersListAdapter extends BaseAdapter {
 
         public void setScore(Integer score) {
             this.score = score;
+        }
+
+        @Override
+        public int compareTo(Player o) {
+            if(o == null) {
+                return -1;
+            }
+            return o.getScore().compareTo(this.getScore());
         }
     }
 }

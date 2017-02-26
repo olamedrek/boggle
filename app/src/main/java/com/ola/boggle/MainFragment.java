@@ -220,11 +220,12 @@ public class MainFragment extends Fragment {
             builder.setView(input);
 
             builder.setPositiveButton("OK", (dialog, which) -> {
-                playersAdapter.addPoints(i, Integer.parseInt(input.getText().toString()));
+                try {
+                    int points = Integer.parseInt(input.getText().toString());
+                    playersAdapter.addPoints(i, points);
+                } catch (NumberFormatException e) {}
             });
-            builder.setNegativeButton("Cancel", (dialog, which) -> {
-                dialog.cancel();
-            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
             return true;
         });
