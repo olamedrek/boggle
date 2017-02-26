@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="56dp"
+            android:layout_marginBottom="40dp"
             android:background="@drawable/button"
             android:onClick="onClickAddPlayerButton"/>
     </RelativeLayout>
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="40dp"
             android:background="@drawable/button"
             android:onClick="onClickBackButton"/>
         <ListView
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="160dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="40dp">
         </ListView>

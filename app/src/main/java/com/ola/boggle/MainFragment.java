@@ -76,7 +76,7 @@ public class MainFragment extends Fragment {
                 letterView.setBackgroundResource(R.drawable.letter);
                 letterView.setTextColor(getResources().getColor(R.color.colorLetters));
                 letterView.setGravity(Gravity.CENTER);
-                letterView.setTextSize(96);
+                letterView.setTextSize(108);
             }
         });
 
